@@ -3467,37 +3467,37 @@ module tt_um_wokwi_411379488132926465(
   mux_cell mux64 (
     .a (net514),
     .b (net615),
-    .sel (net8),
+    .sel (net7),
     .out (net52)
   );
   mux_cell mux65 (
     .a (net511),
     .b (net616),
-    .sel (net8),
+    .sel (net7),
     .out (net68)
   );
   mux_cell mux66 (
     .a (net517),
     .b (net547),
-    .sel (net8),
+    .sel (net7),
     .out (net84)
   );
   mux_cell mux67 (
     .a (net509),
     .b (net547),
-    .sel (net8),
+    .sel (net7),
     .out (net100)
   );
   mux_cell mux68 (
     .a (net505),
     .b (net547),
-    .sel (net8),
+    .sel (net7),
     .out (net116)
   );
   mux_cell mux69 (
     .a (net508),
     .b (net553),
-    .sel (net8),
+    .sel (net7),
     .out (net132)
   );
 endmodule
