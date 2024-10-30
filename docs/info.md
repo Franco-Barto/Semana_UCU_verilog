@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+It's a compilation of all proyects done in class, muxed so we can test all, they include various number to 7 segment display converters, and counters.
 
 ## How to test
 
-Explain how to use your project
+Select a proyect with the 4 MSBs and test it with the other 4 bits
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+7 segment displays
