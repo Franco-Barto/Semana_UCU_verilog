@@ -67,7 +67,7 @@ async def test_project(dut):
 
     dut._log.info("Test project 2 behaviour")
     for i in range(8):
-        dut.ui_in.value = rotar_MSB_LSB_3(i)
+        dut.ui_in.value = rotar_MSB_LSB_3(i)+32
         await ClockCycles(dut.clk, 1)
         assert dut.uo_out.value == display_cath_9cd(i)
 
