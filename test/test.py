@@ -16,14 +16,21 @@ def rotar_MSB_LSB_3(inversor):
 def display_7seg_mal(valor):
     seg7_mal=[119,65,59,107,77,110,126,67,127,111]
     return seg7_mal[valor]
+    
+def display_7seg_cath(valor):
+    seg7_cath_9cd=[63,6,91,79,102,109,125,7,127,111]
+    return seg7_cath_9cd[valor]
 
 def display_7seg_cath_9sd(valor):
     seg7_cath_9sd=[63,6,91,79,102,109,125,7,127,103]
-    return seg7_cath_9sd[valor]
+    return seg7_cath_9sd[valor]    
+    
+def display_7seg_cath_6sa(valor):
+    seg7_cath_9cd_6sa=[63,6,91,79,102,109,124,7,127,111]
+    return seg7_cath_9cd_6sa[valor]
 
-def display_7seg_cath_9cd(valor):
-    seg7_cath_9cd=[63,6,91,79,102,109,125,7,127,111]
-    return seg7_cath_9cd[valor]
+def display_7seg_an(valor):
+    return 127-display_7seg_cath(valor)
 
 async def reset(dut): 
     dut.ui_in.value = 0
@@ -31,6 +38,22 @@ async def reset(dut):
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
+
+async def shift_register(dut,value,proyect):
+    bit_to_send=0
+    for i in range(7,-1,-1):
+        bit_to_send = value&2**i
+        if bit_to_send==0:
+            dut.ui_in.value = 16*proyect
+            await ClockCycles(dut.clk, 1)
+            dut.ui_in.value = 16*proyect+2
+            await ClockCycles(dut.clk, 1)
+        else:            
+            dut.ui_in.value = 16*proyect+1
+            await ClockCycles(dut.clk, 1)
+            dut.ui_in.value = 16*proyect+3
+            await ClockCycles(dut.clk, 1)
+        
     
 @cocotb.test()
 async def test_project(dut):
@@ -69,9 +92,105 @@ async def test_project(dut):
     for i in range(8):
         dut.ui_in.value = rotar_MSB_LSB_3(i)+32
         await ClockCycles(dut.clk, 1)
-        assert dut.uo_out.value == display_7seg_cath_9cd(i)
+        assert dut.uo_out.value == display_7seg_cath(i)
+    
+    await reset(dut)
 
+    dut._log.info("Test project 3 behaviour")
+    for i in range(8):
+        dut.ui_in.value = rotar_MSB_LSB_3(i)+48
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_cath(i)
 
+    await reset(dut)
+    
+    dut._log.info("Test project 4 behaviour")
+    for i in range(8):
+        dut.ui_in.value = rotar_MSB_LSB_3(i)+64
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_cath_6sa(i)
+
+    await reset(dut)
+    
+    dut._log.info("Test project 5 behaviour")
+    for i in range(9):        
+        dut.ui_in.value = 80
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_cath_6sa(i%8)
+        dut.ui_in.value = 81
+        await ClockCycles(dut.clk, 1)
+        
+    await reset(dut)
+    
+    dut._log.info("Test project 6 behaviour")
+    for i in range(10):        
+        dut.ui_in.value = 96
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_cath(i%10)
+        dut.ui_in.value = 97
+        await ClockCycles(dut.clk, 1)
+
+    await reset(dut)
+    
+    dut._log.info("Test project 7 behaviour")
+    for i in range(9):
+        dut.ui_in.value = 112
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_an(i%8)
+        dut.ui_in.value = 114
+        await ClockCycles(dut.clk, 1)
+    dut.ui_in.value = 113
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == display_7seg_an(7)
+
+    await reset(dut)
+    
+    dut._log.info("Test project 8 behaviour")
+    for i in range(10):
+        dut.ui_in.value = 0x80
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_cath(i%10)
+        dut.ui_in.value = 0x81
+        await ClockCycles(dut.clk, 1)
+
+    await reset(dut)
+    
+    dut._log.info("Test project 9 behaviour")
+    await shift_register(dut,0x11,9)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 10 behaviour")
+    await shift_register(dut,0xB2,10)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 11 behaviour")
+    await shift_register(dut,0x80,11)
+    assert dut.uo_out.value == display_7seg_cath(1) 
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 12 behaviour")
+    await shift_register(dut,0x7F,12)
+    assert dut.uo_out.value & 1 == 1
+    await reset(dut)
+    await shift_register(dut,0xFF,12)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 13 behaviour")
+    await shift_register(dut,0x49,13)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 14 behaviour")
+    await shift_register(dut,0x55,14)
+    assert dut.uo_out.value & 1 == 1
     
 
     
