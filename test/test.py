@@ -17,7 +17,7 @@ def display_7seg_cath(valor):
     seg7_cath=[63,6,91,79,102,109,125,7,127,111]
     return seg7_cath[valor]
     
-def reset():
+async def reset():
     dut.ui_in.value = 0
     dut.rst_n.value = 0
     await ClockCycles(dut.clk, 1)
