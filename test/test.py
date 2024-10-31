@@ -14,7 +14,7 @@ def display_7seg_mal(valor):
     return seg7_mal[valor]
 
 def display_7seg_cath_9sd(valor):
-    seg7_cath_9sd=[63,6,91,79,102,109,125,7,127,67]
+    seg7_cath_9sd=[63,6,91,79,102,109,125,7,127,103]
     return seg7_cath_9sd[valor]
 
 def display_7seg_cath_9cd(valor):
