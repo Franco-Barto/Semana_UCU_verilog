@@ -8,6 +8,10 @@ from cocotb.triggers import ClockCycles
 def rotar_MSB_LSB_4(inversor):
     lista_MSB_LSB_4=[0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15]
     return lista_MSB_LSB_4[inversor]
+    
+def rotar_MSB_LSB_3(inversor):
+    lista_MSB_LSB_3=[0,4,2,6,1,5,3,7]
+    return lista_MSB_LSB_3[inversor]
 
 def display_7seg_mal(valor):
     seg7_mal=[119,65,59,107,77,110,126,67,127,111]
@@ -52,26 +56,22 @@ async def test_project(dut):
     await reset(dut)
     
     dut._log.info("Test project 1 behaviour")
-    for i in range(10):        
+    for i in range(11):        
         dut.ui_in.value = 16
         await ClockCycles(dut.clk, 1)
-        assert dut.uo_out.value == display_7seg_cath_9sd(i)
+        assert dut.uo_out.value == display_7seg_cath_9sd(i%10)
         dut.ui_in.value = 17
         await ClockCycles(dut.clk, 1)
 
+    await reset(dut)
+
+    dut._log.info("Test project 2 behaviour")
+    for i in range(8):
+        dut.ui_in.value = rotar_MSB_LSB_3(i)
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_cath_9cd(i)
+
 
     
 
     
-    # Set the input values you want to test
-    #dut.ui_in.value = 3
-
-    # Wait for one clock cycle to see the output values
-    #await ClockCycles(dut.clk, 1)
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    #assert dut.uo_out.value == 107
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
