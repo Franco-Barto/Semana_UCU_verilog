@@ -47,12 +47,13 @@ async def test_project(dut):
     dut.rst_n.value = 1
     
     dut._log.info("Test project 1 behaviour")
-    for i in range(10):
-        dut.ui_in.value = 17
-        await ClockCycles(dut.clk, 1)
+    for i in range(10):        
         dut.ui_in.value = 0
         assert dut.uo_out.value == display_7seg_cath(i)
         await ClockCycles(dut.clk, 1)
+        dut.ui_in.value = 17
+        await ClockCycles(dut.clk, 1)
+
 
     
 
