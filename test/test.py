@@ -38,6 +38,22 @@ async def reset(dut):
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
+
+async def shift_register(value,proyect):
+    bit_to_send=0
+    for i in range(7,-1,-1):
+        bit_to_send = value&2**i
+        if bit_to_send==0
+            dut.ui_in.value = 16*proyect
+            await ClockCycles(dut.clk, 1)
+            dut.rst_n.value = 16*proyect+2
+            await ClockCycles(dut.clk, 1)
+        else            
+            dut.ui_in.value = 16*proyect+1
+            await ClockCycles(dut.clk, 1)
+            dut.rst_n.value = 16*proyect+3
+            await ClockCycles(dut.clk, 1)
+        
     
 @cocotb.test()
 async def test_project(dut):
@@ -137,9 +153,10 @@ async def test_project(dut):
         dut.ui_in.value = 0x81
         await ClockCycles(dut.clk, 1)
 
-
-
-        
+    await reset(dut)
+    
+    dut._log.info("Test project 9 behaviour")
+    await shift_register(0x11,9)
 
     
 
