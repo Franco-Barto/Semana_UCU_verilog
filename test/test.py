@@ -83,7 +83,7 @@ async def test_project(dut):
         await ClockCycles(dut.clk, 1)
         assert dut.uo_out.value == display_7seg_cath(i)
 
-    await reset(duty)
+    await reset(dut)
     
     dut._log.info("Test project 4 behaviour")
     for i in range(8):
