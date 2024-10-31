@@ -29,6 +29,9 @@ def display_7seg_cath_6sa(valor):
     seg7_cath_9cd_6sa=[63,6,91,79,102,109,124,7,127,111]
     return seg7_cath_9cd_6sa[valor]
 
+def display_7seg_an(valor):
+    return 127-display_7seg_cath(valor)
+
 async def reset(dut): 
     dut.ui_in.value = 0
     dut.rst_n.value = 0
@@ -111,6 +114,16 @@ async def test_project(dut):
         dut.ui_in.value = 97
         await ClockCycles(dut.clk, 1)
 
+    await reset(dut)
+    
+    dut._log.info("Test project 7 behaviour")
+    for i in range(9):        
+        dut.ui_in.value = 112
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == display_7seg_an(i%8)
+        dut.ui_in.value = 113
+        await ClockCycles(dut.clk, 1)
+        
 
     
 
