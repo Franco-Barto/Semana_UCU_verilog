@@ -17,6 +17,13 @@ def display_7seg_cath(valor):
     seg7_cath=[63,6,91,79,102,109,125,7,127,111]
     return seg7_cath[valor]
 
+async def reset(dut): 
+    dut.ui_in.value = 0
+    dut.rst_n.value = 0
+    await ClockCycles(dut.clk, 1)
+    dut.rst_n.value = 1
+    await ClockCycles(dut.clk, 1)
+    
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -29,11 +36,8 @@ async def test_project(dut):
     dut._log.info("Reset")
     dut.ena.value = 1
     dut.uio_in.value = 0
-    
-    dut.ui_in.value = 0
-    dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 1)
-    dut.rst_n.value = 1
+   
+    await reset(dut)
 
     dut._log.info("Test project 0 behaviour")
     for i in range(10):
@@ -41,14 +45,11 @@ async def test_project(dut):
         await ClockCycles(dut.clk, 1)
         assert dut.uo_out.value == display_7seg_mal(i)
 
-    dut.ui_in.value = 0
-    dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 1)
-    dut.rst_n.value = 1
+    await reset(dut)
     
     dut._log.info("Test project 1 behaviour")
     for i in range(10):        
-        dut.ui_in.value = 0
+        dut.ui_in.value = 16
         assert dut.uo_out.value == display_7seg_cath(i)
         await ClockCycles(dut.clk, 1)
         dut.ui_in.value = 17
