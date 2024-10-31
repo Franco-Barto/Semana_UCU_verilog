@@ -13,9 +13,13 @@ def display_7seg_mal(valor):
     seg7_mal=[119,65,59,107,77,110,126,67,127,111]
     return seg7_mal[valor]
 
-def display_7seg_cath(valor):
-    seg7_cath=[63,6,91,79,102,109,125,7,127,111]
-    return seg7_cath[valor]
+def display_7seg_cath_9sd(valor):
+    seg7_cath_9sd=[63,6,91,79,102,109,125,7,127,67]
+    return seg7_cath_9sd[valor]
+
+def display_7seg_cath_9cd(valor):
+    seg7_cath_9cd=[63,6,91,79,102,109,125,7,127,111]
+    return seg7_cath_9cd[valor]
 
 async def reset(dut): 
     dut.ui_in.value = 0
@@ -51,7 +55,7 @@ async def test_project(dut):
     for i in range(10):        
         dut.ui_in.value = 16
         await ClockCycles(dut.clk, 1)
-        assert dut.uo_out.value == display_7seg_cath(i)
+        assert dut.uo_out.value == display_7seg_cath_9sd(i)
         dut.ui_in.value = 17
         await ClockCycles(dut.clk, 1)
 
