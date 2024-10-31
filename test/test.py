@@ -13,6 +13,17 @@ def display_7seg_mal(valor):
     seg7_mal=[119,65,59,107,77,110,126,67,127,111]
     return seg7_mal[valor]
 
+def display_7seg_cath(valor):
+    seg7_cath=[63,6,91,79,102,109,125,7,127,111]
+    return seg7_cath[valor]
+    
+def reset():
+    dut.ui_in.value = 0
+    dut.rst_n.value = 0
+    await ClockCycles(dut.clk, 1)
+    dut.rst_n.value = 1
+    return
+
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -24,17 +35,29 @@ async def test_project(dut):
     # Reset
     dut._log.info("Reset")
     dut.ena.value = 1
-    dut.ui_in.value = 0
     dut.uio_in.value = 0
-    dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
-    dut.rst_n.value = 1
+    
+    reset()
 
     dut._log.info("Test project 0 behaviour")
     for i in range(10):
         dut.ui_in.value = rotar_MSB_LSB_4(i)
         await ClockCycles(dut.clk, 1)
         assert dut.uo_out.value == display_7seg_mal(i)
+
+    reset()
+    
+    dut._log.info("Test project 1 behaviour")
+    for i in range(10):
+        dut.ui_in.value = 1
+        await ClockCycles(dut.clk, 1)
+        dut.ui_in.value = 0
+        assert dut.uo_out.value == display_7seg_cath(i)
+        await ClockCycles(dut.clk, 1)
+
+    
+
+    
     # Set the input values you want to test
     #dut.ui_in.value = 3
 
