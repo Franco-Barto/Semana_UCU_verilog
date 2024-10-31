@@ -158,7 +158,39 @@ async def test_project(dut):
     dut._log.info("Test project 9 behaviour")
     await shift_register(dut,0x11,9)
     assert dut.uo_out.value & 1 == 1
-
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 10 behaviour")
+    await shift_register(dut,0xB2,10)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 11 behaviour")
+    await shift_register(dut,0x80,11)
+    assert dut.uo_out.value == display_7seg_cath(1) 
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 12 behaviour")
+    await shift_register(dut,0x7F,12)
+    assert dut.uo_out.value & 1 == 1
+    await reset(dut)
+    await shift_register(dut,0xFF,12)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 13 behaviour")
+    await shift_register(dut,0x49,13)
+    assert dut.uo_out.value & 1 == 1
+    
+    await reset(dut)
+    
+    dut._log.info("Test project 14 behaviour")
+    await shift_register(dut,0x55,14)
+    assert dut.uo_out.value & 1 == 1
     
 
     
