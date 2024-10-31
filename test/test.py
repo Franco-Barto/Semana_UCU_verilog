@@ -6,7 +6,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 def rotar_MSB_LSB_4(inversor):
-    lista_MSB_LSB_4=[0,8,4,12,2,10,6,14,1,8,5,13,3,11,7,15]
+    lista_MSB_LSB_4=[0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15]
     return lista_MSB_LSB_4[inversor]
 
 def display_7seg_mal(valor):
