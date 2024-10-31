@@ -39,7 +39,7 @@ async def reset(dut):
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
 
-async def shift_register(value,proyect):
+async def shift_register(dut,value,proyect):
     bit_to_send=0
     for i in range(7,-1,-1):
         bit_to_send = value&2**i
