@@ -43,12 +43,12 @@ async def shift_register(value,proyect):
     bit_to_send=0
     for i in range(7,-1,-1):
         bit_to_send = value&2**i
-        if bit_to_send==0
+        if bit_to_send==0:
             dut.ui_in.value = 16*proyect
             await ClockCycles(dut.clk, 1)
             dut.rst_n.value = 16*proyect+2
             await ClockCycles(dut.clk, 1)
-        else            
+        else:            
             dut.ui_in.value = 16*proyect+1
             await ClockCycles(dut.clk, 1)
             dut.rst_n.value = 16*proyect+3
