@@ -156,7 +156,7 @@ async def test_project(dut):
     await reset(dut)
     
     dut._log.info("Test project 9 behaviour")
-    await shift_register(0x11,9)
+    await shift_register(dut,0x11,9)
 
     
 
