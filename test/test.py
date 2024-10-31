@@ -157,6 +157,7 @@ async def test_project(dut):
     
     dut._log.info("Test project 9 behaviour")
     await shift_register(dut,0x11,9)
+    assert dut.uo_out.value & 1 == 1
 
     
 
