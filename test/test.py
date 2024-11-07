@@ -197,6 +197,7 @@ async def test_project(dut):
         for project in range(9,15):
             await shift_register(dut,key)
             dut.ui_in.value = 16*project
+            await ClockCycles(dut.clk, 1)
             if project==11:
                 if key==0x80:
                     assert dut.uo_out.value == display_7seg_cath(1)
