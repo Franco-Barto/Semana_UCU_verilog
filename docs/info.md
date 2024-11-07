@@ -14,8 +14,8 @@ This project is a compilation of designs created by students with little to no k
 ## Guidelines 
 
 ### 1- Basic Project
-*Description: A shift register with ui_in[0] as input and ui_in[1] as external clock. When the shift register contains a specific key chosen by the students, ui_out[0] is driven to 1.
-*How to test: Connect ui_in[1] with an external clock  and insert the key via ui_in[1] form MSB to LSB
+* Description: A shift register with ui_in[0] as input and ui_in[1] as external clock. When the shift register contains a specific key chosen by the students, ui_out[0] is driven to 1.
+* How to test: Connect ui_in[1] with an external clock  and insert the key via ui_in[1] form MSB to LSB
 
 ### 2- Advanced Project N°1
 *Description: Decoder from 3 bits to 7 segment display with ui_in[2:0] as inputs. Some groups upped it to 4 bits
