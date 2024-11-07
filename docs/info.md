@@ -119,7 +119,7 @@ This project is a compilation of designs created by students with little to no k
   
 ## Schematic
   
-![block diagram](Semana_UCU.png)
+![block diagram](Semana_UCU2.png)
 ## External hardware
 
 7 segment displays (common anode and common cathode)
