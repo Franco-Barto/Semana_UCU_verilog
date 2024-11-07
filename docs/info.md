@@ -116,7 +116,10 @@ This project is a compilation of designs created by students with little to no k
 * Wokwi: https://wokwi.com/projects/410643958389030913  
 * Guideline chosen for project: Basic Project
 * Details: Key is 0x55
-
+  
+## Schematic
+  
+![block diagram](Semana_UCU.png)
 ## External hardware
 
 7 segment displays (common anode and common cathode)
