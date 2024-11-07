@@ -194,8 +194,8 @@ async def test_project(dut):
 """
     dut._log.info("Test basic projects behaviour")
     for key in range(256):
+        await shift_register(dut,key)
         for project in range(9,15):
-            await shift_register(dut,key)
             dut.ui_in.value = 16*project
             await ClockCycles(dut.clk, 1)
             if project==11:
