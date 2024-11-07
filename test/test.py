@@ -39,19 +39,19 @@ async def reset(dut):
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
 
-async def shift_register(dut,value,proyect):
+async def shift_register(dut,value):
     bit_to_send=0
     for i in range(7,-1,-1):
         bit_to_send = value&2**i
         if bit_to_send==0:
-            dut.ui_in.value = 16*proyect
+            dut.ui_in.value = 0
             await ClockCycles(dut.clk, 1)
-            dut.ui_in.value = 16*proyect+2
+            dut.ui_in.value = 2
             await ClockCycles(dut.clk, 1)
         else:            
-            dut.ui_in.value = 16*proyect+1
+            dut.ui_in.value = 1
             await ClockCycles(dut.clk, 1)
-            dut.ui_in.value = 16*proyect+3
+            dut.ui_in.value = 3
             await ClockCycles(dut.clk, 1)
         
     
@@ -154,7 +154,7 @@ async def test_project(dut):
         await ClockCycles(dut.clk, 1)
 
     await reset(dut)
-    
+    """
     dut._log.info("Test project 9 behaviour")
     await shift_register(dut,0x11,9)
     assert dut.uo_out.value & 1 == 1
@@ -191,6 +191,21 @@ async def test_project(dut):
     dut._log.info("Test project 14 behaviour")
     await shift_register(dut,0x55,14)
     assert dut.uo_out.value & 1 == 1
-    
+"""
+    dut._log.info("Test basic projects behaviour")
+    for key in range(256):
+        for project in range(9,15):
+            await shift_register(dut,key)
+            dut.io_in.value = 16*project
+            if project==11:
+                if key==0x80:
+                    assert dut.uo_out.value == display_7seg_cath(1)
+                else:
+                    assert dut.uo_out.value == display_7seg_cath(0)
+            else:
+                if ((project==9 and key==0x11)or(project==10 and key==0xB2)or(project==12 and key==0x7F)or(project==12 and key==0xFF)or(project==13 and key==0x49)or(project==14 and key==0x55)):
+                    assert dut.uo_out.value & 1 == 1
+                else:
+                     assert dut.uo_out.value & 1 == 0
 
     
