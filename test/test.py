@@ -40,6 +40,7 @@ async def reset(dut):        #resetea los valores (FFs y la entrada)
     await ClockCycles(dut.clk, 1)
 
 async def shift_register(dut,value):        #ingresa el número value al shift register de los proyectos básicos
+    for i in range(7,-1,-1): 
         bit_to_send = value&2**i
         if bit_to_send==0:
             dut.ui_in.value = 0
